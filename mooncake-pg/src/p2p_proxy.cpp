@@ -11,6 +11,7 @@
 #include <thread>
 #include "memory_location.h"
 #include "pg_utils.h"
+#include "rdma_buffer.h"
 #include "control_plane/agent_host.h"
 
 namespace mooncake {
@@ -1437,14 +1438,14 @@ void P2PDeviceWorker::initPools(TransferEngine* engine,
     } else {
         setCudaDeviceIfNeeded(is_cpu_, cuda_device_index_,
                               "P2PDeviceWorker initPools cudaSetDevice failed");
-        cudaError_t err = cudaMalloc(&send_pool_base_, pool_bytes_);
+        cudaError_t err = allocateRdmaBuffer(&send_pool_base_, pool_bytes_);
         PG_ASSERT(err == cudaSuccess, "Failed to allocate CUDA P2P send pool: ",
                   cudaGetErrorString(err));
         int rc =
             engine->registerLocalMemory(send_pool_base_, pool_bytes_, location);
         PG_ASSERT(rc == 0, "Failed to register CUDA P2P send pool");
 
-        err = cudaMalloc(&recv_pool_base_, pool_bytes_);
+        err = allocateRdmaBuffer(&recv_pool_base_, pool_bytes_);
         PG_ASSERT(err == cudaSuccess, "Failed to allocate CUDA P2P recv pool: ",
                   cudaGetErrorString(err));
         rc =

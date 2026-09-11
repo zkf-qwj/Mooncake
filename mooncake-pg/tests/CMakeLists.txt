@@ -7,3 +7,18 @@ target_include_directories(
 target_compile_features(pg_host_ip_resolve_test PRIVATE cxx_std_20)
 target_link_libraries(pg_host_ip_resolve_test PUBLIC gtest gtest_main)
 add_test(NAME pg_host_ip_resolve_test COMMAND pg_host_ip_resolve_test)
+
+add_executable(pg_rdma_buffer_test pg_rdma_buffer_test.cpp)
+target_include_directories(
+  pg_rdma_buffer_test
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../../mooncake-transfer-engine/include)
+target_link_libraries(pg_rdma_buffer_test PRIVATE gtest gtest_main)
+if(USE_CUDA)
+  target_link_libraries(pg_rdma_buffer_test PRIVATE CUDA::cudart)
+elseif(USE_MUSA)
+  target_link_libraries(pg_rdma_buffer_test PRIVATE musa musart rt)
+elseif(USE_MACA)
+  target_link_libraries(pg_rdma_buffer_test PRIVATE mcruntime mxc-runtime64 rt)
+endif()
+add_test(NAME pg_rdma_buffer_test COMMAND pg_rdma_buffer_test)

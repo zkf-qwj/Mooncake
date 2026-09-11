@@ -17,6 +17,7 @@
 #include "gpu_runtime.h"
 #include "memory_location.h"
 #include "pg_host_ip_resolve.h"
+#include "rdma_buffer.h"
 #if MOONCAKE_PG_HAS_COLLECTIVE_V2
 #include "device_comm/device_collective/device_collective.h"
 #include "device_comm/device_collective/device_collective_workspace.h"
@@ -614,8 +615,8 @@ PGResult<void> MooncakeCommunicator::initialize(
             PG_ASSERT(send_buffer_[index] && recv_buffer_[index],
                       "failed to allocate CPU collective buffers");
         } else {
-            PG_TRY_CUDA(cudaMalloc(&send_buffer_[index], kBufferSize));
-            PG_TRY_CUDA(cudaMalloc(&recv_buffer_[index], kBufferSize));
+            PG_TRY_CUDA(allocateRdmaBuffer(&send_buffer_[index], kBufferSize));
+            PG_TRY_CUDA(allocateRdmaBuffer(&recv_buffer_[index], kBufferSize));
         }
         PG_TRY_TE(context_.engine->registerLocalMemory(send_buffer_[index],
                                                        kBufferSize, location));
