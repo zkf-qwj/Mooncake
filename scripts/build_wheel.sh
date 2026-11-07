@@ -148,6 +148,10 @@ echo "Copying transfer_engine_bench..."
 # Copy transfer_engine_bench
 cp ${BUILD_DIR}/mooncake-transfer-engine/example/transfer_engine_bench mooncake-wheel/mooncake/
 
+echo "Copying transfer_engine_validator..."
+# Copy transfer_engine_validator, including the nvlink_intra protocol validator.
+cp ${BUILD_DIR}/mooncake-transfer-engine/example/transfer_engine_validator mooncake-wheel/mooncake/
+
 if [ -f "${BUILD_DIR}/mooncake-transfer-engine/src/transport/ascend_transport/hccl_transport/ascend_transport_c/libascend_transport_mem.so" ]; then
     cp ${BUILD_DIR}/mooncake-transfer-engine/src/transport/ascend_transport/hccl_transport/ascend_transport_c/libascend_transport_mem.so mooncake-wheel/mooncake/
     echo "Copying ascend_transport_mem libraries..."
