@@ -76,6 +76,8 @@ static inline CUresult cuGetErrorString(CUresult error, const char **err_str) {
 #define cudaDeviceEnablePeerAccess mcDeviceEnablePeerAccess
 #define cudaDeviceGetAttribute mcDeviceGetAttribute
 #define cudaDeviceGetPCIBusId mcDeviceGetPCIBusId
+#define cudaDeviceProp mcDeviceProp_t
+#define cudaGetDeviceProperties mcGetDeviceProperties
 #define cudaDeviceSynchronize mcDeviceSynchronize
 #define cudaDeviceGetStreamPriorityRange mcDeviceGetStreamPriorityRange
 #define cudaStreamCreateWithPriority mcStreamCreateWithPriority
@@ -85,6 +87,7 @@ static inline CUresult cuGetErrorString(CUresult error, const char **err_str) {
 #define cudaDevAttrMultiProcessorCount mcDeviceAttributeMultiProcessorCount
 #define cudaDevAttrClockRate mcDeviceAttributeClockRate
 #define cudaErrorNotReady mcErrorNotReady
+#define cudaErrorDeviceUninitialized mcErrorDeviceUninitialized
 #define cudaErrorPeerAccessAlreadyEnabled mcErrorPeerAccessAlreadyEnabled
 #define cudaError_t mcError_t
 #define cudaEvent_t mcEvent_t
